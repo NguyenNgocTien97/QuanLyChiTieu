@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Phân Tích &amp; Báo Cáo - Weekly Spending Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#516070",
+                      "secondary-fixed": "#d5e4f8",
+                      "on-error": "#ffffff",
+                      "inverse-on-surface": "#f0f0fb",
+                      "on-primary": "#ffffff",
+                      "background": "#faf8ff",
+                      "surface-tint": "#0053db",
+                      "secondary-fixed-dim": "#b9c8db",
+                      "on-surface-variant": "#434655",
+                      "on-primary-container": "#eeefff",
+                      "inverse-surface": "#2e3039",
+                      "on-secondary-fixed": "#0e1d2b",
+                      "on-background": "#191b23",
+                      "surface-container": "#ededf9",
+                      "surface-container-high": "#e7e7f3",
+                      "tertiary": "#943700",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed": "#00174b",
+                      "surface-variant": "#e1e2ed",
+                      "surface-dim": "#d9d9e5",
+                      "secondary-container": "#d5e4f8",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-surface": "#191b23",
+                      "primary-fixed": "#dbe1ff",
+                      "on-tertiary-container": "#ffede6",
+                      "primary": "#004ac6",
+                      "surface-container-low": "#f3f3fe",
+                      "on-secondary-container": "#576676",
+                      "surface-bright": "#faf8ff",
+                      "on-secondary": "#ffffff",
+                      "tertiary-container": "#bc4800",
+                      "surface-container-highest": "#e1e2ed",
+                      "on-secondary-fixed-variant": "#3a4858",
+                      "on-tertiary": "#ffffff",
+                      "outline": "#737686",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "tertiary-fixed": "#ffdbcd",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "surface": "#faf8ff",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "primary-container": "#2563eb",
+                      "inverse-primary": "#b4c5ff",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "outline-variant": "#c3c6d7",
+                      "success": "#16a34a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "inline-gap": "8px",
+                      "stack-gap-md": "16px",
+                      "safe-area-bottom": "34px",
+                      "container-padding": "20px",
+                      "stack-gap-sm": "12px",
+                      "stack-gap-lg": "24px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "display-currency": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "display-currency": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-bar-animate {
+            transform-origin: bottom;
+            animation: growBar 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes growBar {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="max-w-[390px] mx-auto min-h-screen relative pb-safe-area-bottom">
+<!-- Header -->
+<header class="flex items-center justify-between px-container-padding h-[64px] w-full z-50 sticky top-0 bg-surface/90 backdrop-blur-md shadow-sm">
+<a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-full active:scale-95 transition-transform duration-200 text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Phân Tích Chi Tiêu</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full active:scale-95 transition-transform duration-200 text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined">ios_share</span>
+</button>
+</header>
+<main class="px-container-padding pb-32 pt-stack-gap-md space-y-stack-gap-lg">
+<!-- Timeframe Toggle -->
+<div class="bg-surface-container-high p-1 rounded-full flex mx-auto max-w-xs shadow-inner">
+<button class="flex-1 py-2 font-label-md text-label-md rounded-full bg-primary text-on-primary shadow-sm transition-all duration-200 active:scale-95">Tuần</button>
+<button class="flex-1 py-2 font-label-md text-label-md rounded-full text-on-surface-variant hover:bg-surface-variant transition-all duration-200 active:scale-95">Tháng</button>
+<button class="flex-1 py-2 font-label-md text-label-md rounded-full text-on-surface-variant hover:bg-surface-variant transition-all duration-200 active:scale-95">Năm</button>
+</div>
+<!-- Total Summary Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-surface-container/50 relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors duration-500"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Tổng chi tiêu</p>
+<div class="flex items-baseline gap-2 mb-2">
+<h2 class="font-display-currency text-display-currency text-on-surface">1.300.000đ</h2>
+</div>
+<div class="flex items-center gap-1.5 mb-4 bg-success/10 w-fit px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px] text-success" style="font-variation-settings: 'FILL' 1;">trending_down</span>
+<span class="font-label-sm text-label-sm text-success">Giảm 12% so với tuần trước</span>
+</div>
+<div class="bg-primary/5 rounded-xl p-3 border border-primary/10 flex gap-3 items-start">
+<span class="material-symbols-outlined text-primary mt-0.5" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<p class="font-body-md text-body-md text-on-surface-variant leading-tight">Chi tiêu tốt! Bạn đang đi đúng hướng để đạt mục tiêu tiết kiệm tuần.</p>
+</div>
+</section>
+<!-- Category Spending Breakdown -->
+<section>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md">Chi tiêu theo danh mục</h3>
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] space-y-4">
+<!-- Item 1 -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-600 text-sm">restaurant</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Ăn uống</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface block">650.000đ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">50%</span>
+</div>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-orange-500 rounded-full" style="width: 50%"></div>
+</div>
+</div>
+<!-- Item 2 -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600 text-sm">shopping_bag</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Mua sắm</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface block">350.000đ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">27%</span>
+</div>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-blue-500 rounded-full" style="width: 27%"></div>
+</div>
+</div>
+<!-- Item 3 -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-purple-600 text-sm">directions_car</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Đi lại</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface block">150.000đ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">11.5%</span>
+</div>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-purple-500 rounded-full" style="width: 11.5%"></div>
+</div>
+</div>
+<!-- Item 4 -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-600 text-sm">more_horiz</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Khác</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-on-surface block">150.000đ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">11.5%</span>
+</div>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-gray-500 rounded-full" style="width: 11.5%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Weekly Spending Trend Chart -->
+<section>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md">Xu hướng chi tiêu</h3>
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between mb-4">
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-sm bg-primary"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tuần này</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-sm bg-surface-variant"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tuần trước</span>
+</div>
+</div>
+</div>
+<!-- Mock Chart Area -->
+<div class="relative h-48 w-full flex items-end justify-between pt-6 border-b border-surface-variant">
+<!-- Threshold Line -->
+<div class="absolute top-1/3 left-0 w-full border-t-2 border-dashed border-error/40 flex items-center z-0">
+<span class="absolute -top-5 right-0 font-label-sm text-label-sm text-error bg-surface-container-lowest px-1">Giới hạn ngày: 250k</span>
+</div>
+<!-- Day 1 (T2) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 40%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 60%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">T2</span>
+<div class="absolute -top-8 bg-inverse-surface text-inverse-on-surface px-2 py-1 rounded-md text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">200k</div>
+</div>
+<!-- Day 2 (T3) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 50%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 30%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">T3</span>
+</div>
+<!-- Day 3 (T4) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 30%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 90%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">T4</span>
+<div class="absolute -top-8 bg-inverse-surface text-inverse-on-surface px-2 py-1 rounded-md text-[10px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-error">320k</div>
+</div>
+<!-- Day 4 (T5) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 70%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 40%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">T5</span>
+</div>
+<!-- Day 5 (T6) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 60%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 50%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">T6</span>
+</div>
+<!-- Day 6 (T7) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 80%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 20%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">T7</span>
+</div>
+<!-- Day 7 (CN) -->
+<div class="w-8 flex flex-col justify-end items-center gap-1 h-full z-10 relative group">
+<div class="w-full flex justify-between gap-0.5 items-end h-[80%]">
+<div class="w-1/2 bg-surface-variant rounded-t-sm chart-bar-animate" style="height: 40%"></div>
+<div class="w-1/2 bg-primary rounded-t-sm chart-bar-animate" style="height: 0%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">CN</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Expense Items -->
+<section>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-gap-md">Khoản chi lớn nhất</h3>
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<!-- Item 1 -->
+<div class="p-4 flex items-center justify-between border-b border-surface-container-high last:border-b-0 hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">shopping_bag</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Mua sắm quần áo</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">T4, 15:30</p>
+</div>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">-350.000đ</span>
+</div>
+<!-- Item 2 -->
+<div class="p-4 flex items-center justify-between border-b border-surface-container-high last:border-b-0 hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Ăn tối gia đình</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">T2, 19:00</p>
+</div>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">-180.000đ</span>
+</div>
+<!-- Item 3 -->
+<div class="p-4 flex items-center justify-between border-b border-surface-container-high last:border-b-0 hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">local_mall</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Siêu thị cuối tuần</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">T7, 10:15</p>
+</div>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">-120.000đ</span>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB Button -->
+<button aria-label="Thêm chi tiêu nhanh" class="fixed bottom-[88px] right-container-padding w-14 h-14 bg-primary text-on-primary rounded-full shadow-[0_8px_16px_rgba(37,99,235,0.25)] flex items-center justify-center hover:bg-primary/90 active:scale-90 transition-all duration-200 z-40">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pt-2 pb-safe-area-bottom bg-surface dark:bg-surface-container-high shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-xl">
+<!-- Trang chủ -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="index.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="text-[10px] mt-0.5">Trang chủ</span>
+</a>
+<!-- Giao dịch -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="transactions.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="text-[10px] mt-0.5">Giao dịch</span>
+</a>
+<!-- FAB Add -->
+<div class="relative -top-6">
+<a class="w-14 h-14 bg-primary-container text-on-primary rounded-full flex items-center justify-center shadow-lg shadow-primary-container/30 hover:scale-105 active:scale-95 transition-transform animate-bounce-subtle" href="index.html?add=true">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</a>
+</div>
+<!-- Thống kê (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="statistics.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="text-[10px] font-semibold mt-0.5">Thống kê</span>
+</a>
+<!-- Ngân sách -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="budget.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance</span>
+<span class="text-[10px] mt-0.5">Ngân sách</span>
+</a>
+</nav>
+<!-- Quick Add Overlay (Hidden by default, structure provided) -->
+<div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" id="quick-add-modal">
+<div class="absolute bottom-0 w-full bg-surface rounded-t-2xl p-container-padding pb-safe-area-bottom transform translate-y-full transition-transform duration-300 shadow-2xl">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full mx-auto mb-6"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Thêm chi tiêu nhanh</h2>
+<!-- Modal Content Placeholder -->
+<div class="h-64 flex items-center justify-center border-2 border-dashed border-surface-variant rounded-xl">
+<p class="text-on-surface-variant font-body-md text-body-md">Form nhập liệu...</p>
+</div>
+</div>
+</div>
+</body></html>

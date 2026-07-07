@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản Lý Chi Tiêu Tuần</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error-container": "#93000a",
+                        "tertiary": "#943700",
+                        "surface-container": "#ededf9",
+                        "surface-container-high": "#e7e7f3",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e1e2ed",
+                        "surface-dim": "#d9d9e5",
+                        "secondary-fixed": "#d5e4f8",
+                        "secondary": "#516070",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f0fb",
+                        "secondary-fixed-dim": "#b9c8db",
+                        "surface-tint": "#0053db",
+                        "on-surface-variant": "#434655",
+                        "background": "#faf8ff",
+                        "on-background": "#191b23",
+                        "on-secondary-fixed": "#0e1d2b",
+                        "on-primary-container": "#eeefff",
+                        "inverse-surface": "#2e3039",
+                        "surface-container-highest": "#e1e2ed",
+                        "on-secondary-fixed-variant": "#3a4858",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#737686",
+                        "surface": "#faf8ff",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c3c6d7",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-container": "#2563eb",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary-container": "#d5e4f8",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary-container": "#ffede6",
+                        "primary-fixed": "#dbe1ff",
+                        "primary": "#004ac6",
+                        "on-surface": "#191b23",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#faf8ff",
+                        "tertiary-container": "#bc4800",
+                        "on-secondary-container": "#576676",
+                        "surface-container-low": "#f3f3fe"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "stack-gap-lg": "24px",
+                        "stack-gap-sm": "12px",
+                        "inline-gap": "8px",
+                        "container-padding": "20px",
+                        "stack-gap-md": "16px",
+                        "safe-area-bottom": "34px"
+                    },
+                    fontFamily: {
+                        "display-currency": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "display-currency": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "headline-md-mobile": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+                        "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "label-sm": ["11px", { lineHeight: "16px", letterSpacing: "0.03em", fontWeight: "600" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .modal-enter { opacity: 0; transform: translateY(100%); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-enter-active { opacity: 1; transform: translateY(0); }
+        .modal-leave { opacity: 1; transform: translateY(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-leave-active { opacity: 0; transform: translateY(100%); }
+
+        .fade-enter { opacity: 0; transition: opacity 0.2s ease-out; }
+        .fade-enter-active { opacity: 1; }
+        .fade-leave { opacity: 1; transition: opacity 0.2s ease-in; }
+        .fade-leave-active { opacity: 0; }
+        
+        .chart-bar-hover:hover { fill: #1d4ed8; cursor: pointer; transition: fill 0.2s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background pb-[90px]">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-container-padding h-[64px] bg-surface shadow-sm shadow-[rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[28px] leading-none" data-icon="account_balance_wallet">account_balance_wallet</span>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">Quản Lý Chi Tiêu Tuần</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<a href="profile.html" class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden shadow-sm hover:scale-105 active:scale-95 transition-transform block">
+<img class="w-full h-full object-cover" data-alt="A close up portrait of an Asian professional in their 30s looking confident in a bright modern office setting. High quality, soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6N1vzzacK962acZwnnNytDRa8oocgI0enPDA6jSuoaDX8WLgmO-a3IdRxh7iWPpBiRleXW66jM3R3mPTrZ0XOVgsO33MhGr7lM_4fePKbO5LOgWv1iBlMDI0oG_NojKRRnyPqPpveZXuOw6nOUBmRkrHQN-gm8ZeriyLo_ug4YS2BCcHtJSSEj26Z9SRpNoUbvCZhK1IVK8yfa1D1a7CyF8Vg55wKi_qOo9p7bGqlIlS91yIDuD0Y5_0V2PBV6Kxq7qaZ3MxHmOUH"/>
+</a>
+</div>
+</header>
+<main class="pt-[80px] px-container-padding max-w-[md] mx-auto space-y-stack-gap-lg">
+<!-- Hero -->
+<section class="space-y-4 pt-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Kiểm soát chi tiêu mỗi tuần thật dễ dàng</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Theo dõi thu nhập, chi tiêu và số tiền còn lại chỉ trong vài giây.</p>
+<div class="flex gap-inline-gap">
+<button class="flex-1 bg-primary-container text-on-primary rounded-full py-3 font-label-lg text-label-lg shadow-md active:scale-95 transition-transform duration-150">Bắt đầu ngay</button>
+<button class="flex-1 bg-secondary-container text-primary-container rounded-full py-3 font-label-lg text-label-lg active:scale-95 transition-transform duration-150">Thêm khoản chi</button>
+</div>
+</section>
+<!-- Saving Tips Alert -->
+<div class="bg-[#FFFBEB] rounded-xl p-4 flex gap-3 shadow-sm items-start border border-[#FEF3C7]">
+<span class="material-symbols-outlined text-[#D97706]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="font-label-lg text-label-lg text-[#92400E]">Cảnh báo ngân sách</p>
+<p class="font-body-md text-body-md text-[#B45309] mt-1">Bạn đã sử dụng 65% ngân sách tuần. Hãy cân đối chi tiêu trong những ngày tới.</p>
+</div>
+</div>
+<!-- Weekly Summary Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-end mb-4">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Ngân sách tuần này</p>
+<p class="font-display-currency text-display-currency text-on-surface">2.000.000đ</p>
+</div>
+</div>
+<div class="space-y-2 mb-4">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Đã chi: <span class="font-bold text-on-surface">1.300.000đ</span></span>
+<span class="text-primary-container font-bold">65%</span>
+</div>
+<div class="w-full bg-secondary-container h-2 rounded-full overflow-hidden">
+<div class="bg-[#D97706] h-full rounded-full w-[65%]"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-surface-variant">
+<span class="font-body-md text-body-md text-on-surface-variant">Còn lại</span>
+<span class="font-headline-md text-headline-md text-primary-container">700.000đ</span>
+</div>
+</section>
+<!-- Quick Actions -->
+<section class="grid grid-cols-2 gap-inline-gap">
+<button class="bg-surface-container-lowest rounded-2xl p-3 shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-3 active:scale-95 transition-transform duration-150">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined fill" data-icon="remove">remove</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface text-left">Thêm chi tiêu</span>
+</button>
+<button class="bg-surface-container-lowest rounded-2xl p-3 shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-3 active:scale-95 transition-transform duration-150">
+<div class="w-10 h-10 rounded-full bg-[#DCFCE7] flex items-center justify-center text-[#166534]">
+<span class="material-symbols-outlined fill" data-icon="add">add</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface text-left">Thêm thu nhập</span>
+</button>
+<button class="bg-surface-container-lowest rounded-2xl p-3 shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-3 active:scale-95 transition-transform duration-150" onclick="window.location.href='transactions.html'">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface text-left">Lịch sử</span>
+</button>
+<button class="bg-surface-container-lowest rounded-2xl p-3 shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-3 active:scale-95 transition-transform duration-150" onclick="window.location.href='statistics.html'">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface text-left">Báo cáo</span>
+</button>
+</section>
+<!-- Daily Spending Chart -->
+<section class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] relative">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-4">Chi tiêu tuần này</h3>
+<div class="h-40 w-full relative">
+<!-- Average Line -->
+<div class="absolute top-[40%] w-full border-t border-dashed border-outline-variant z-0 flex items-center">
+<span class="absolute right-0 -top-5 font-label-sm text-label-sm text-on-surface-variant bg-surface/80 px-1">TB: ~285k/ngày</span>
+</div>
+<!-- SVG Chart -->
+<svg class="w-full h-full z-10 relative" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Bars (Example heights) -->
+<rect class="fill-primary-container chart-bar-hover" height="40" onmouseout="hideTooltip()" onmouseover="showTooltip(event, 'T2', '200.000đ', '3')" rx="2" width="8" x="5" y="60"></rect>
+<rect class="fill-primary-container chart-bar-hover" height="70" onmouseout="hideTooltip()" onmouseover="showTooltip(event, 'T3', '350.000đ', '5')" rx="2" width="8" x="19" y="30"></rect>
+<rect class="fill-primary-container chart-bar-hover" height="20" onmouseout="hideTooltip()" onmouseover="showTooltip(event, 'T4', '100.000đ', '2')" rx="2" width="8" x="33" y="80"></rect>
+<rect class="fill-primary-container chart-bar-hover" height="50" onmouseout="hideTooltip()" onmouseover="showTooltip(event, 'T5', '250.000đ', '4')" rx="2" width="8" x="47" y="50"></rect>
+<rect class="fill-primary-container chart-bar-hover" height="30" onmouseout="hideTooltip()" onmouseover="showTooltip(event, 'T6', '150.000đ', '3')" rx="2" width="8" x="61" y="70"></rect>
+<rect class="fill-outline-variant chart-bar-hover" height="10" rx="2" width="8" x="75" y="90"></rect>
+<rect class="fill-outline-variant chart-bar-hover" height="10" rx="2" width="8" x="89" y="90"></rect>
+</svg>
+</div>
+<div class="flex justify-between px-2 mt-2 font-label-sm text-label-sm text-on-surface-variant">
+<span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+</div>
+<!-- Tooltip -->
+<div class="absolute hidden bg-inverse-surface text-inverse-on-surface p-2 rounded-lg text-xs z-20 pointer-events-none shadow-lg whitespace-nowrap" id="chart-tooltip">
+<div class="font-bold mb-1" id="tooltip-title">T3</div>
+<div>Đã chi: <span class="font-bold" id="tooltip-amount"></span></div>
+<div>Số GD: <span id="tooltip-tx"></span></div>
+</div>
+</section>
+<!-- Recent Transactions -->
+<section class="bg-surface-container-lowest rounded-2xl p-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-lg text-label-lg text-on-surface">Giao dịch gần đây</h3>
+<button class="font-label-md text-label-md text-primary-container" onclick="window.location.href='transactions.html'">Xem tất cả</button>
+</div>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="flex justify-between items-center cursor-pointer hover:bg-surface-container-low p-2 rounded-xl -mx-2 transition-colors" onclick="openTxModal('Ăn trưa Văn phòng', '-50.000đ', 'Hôm nay, 12:30', 'food_bank')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Ăn trưa Văn phòng</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">12:30</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error">-50.000đ</p>
+</div>
+<!-- Item 2 -->
+<div class="flex justify-between items-center cursor-pointer hover:bg-surface-container-low p-2 rounded-xl -mx-2 transition-colors" onclick="openTxModal('Xăng xe', '-40.000đ', 'Hôm nay, 08:15', 'local_gas_station')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="local_gas_station">local_gas_station</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Xăng xe</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">08:15</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error">-40.000đ</p>
+</div>
+<!-- Item 3 -->
+<div class="flex justify-between items-center cursor-pointer hover:bg-surface-container-low p-2 rounded-xl -mx-2 transition-colors" onclick="openTxModal('Mua sắm quần áo', '-350.000đ', 'Hôm qua', 'shopping_bag')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Mua sắm quần áo</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Hôm qua</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error">-350.000đ</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-xl px-2 pt-2 pb-safe-area-bottom flex justify-around items-center">
+<!-- Trang chủ (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="index.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-semibold mt-0.5">Trang chủ</span>
+</a>
+<!-- Giao dịch -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="transactions.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="text-[10px] mt-0.5">Giao dịch</span>
+</a>
+<!-- FAB Add -->
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-primary-container text-on-primary rounded-full flex items-center justify-center shadow-lg shadow-primary-container/30 hover:scale-105 active:scale-95 transition-transform" onclick="openAddModal()">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+</div>
+<!-- Thống kê -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="statistics.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+<span class="text-[10px] mt-0.5">Thống kê</span>
+</a>
+<!-- Ngân sách -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="budget.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance</span>
+<span class="text-[10px] mt-0.5">Ngân sách</span>
+</a>
+</nav>
+<!-- Transaction Detail Modal Backdrop -->
+<div class="fixed inset-0 bg-on-background/50 z-[60] fade-enter hidden backdrop-blur-sm" id="tx-modal-backdrop" onclick="closeTxModal()"></div>
+<!-- Transaction Detail Modal -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest rounded-t-3xl z-[70] modal-enter hidden pb-safe-area-bottom shadow-2xl" id="tx-modal">
+<div class="w-12 h-1.5 bg-outline-variant rounded-full mx-auto my-3"></div>
+<div class="px-container-padding pb-6">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold" id="tx-modal-title">Chi tiết giao dịch</h2>
+<p class="font-body-md text-body-md text-on-surface-variant" id="tx-modal-time">Thời gian</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined" id="tx-modal-icon">receipt</span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-4 mb-6">
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Số tiền</p>
+<p class="font-display-currency text-display-currency text-error" id="tx-modal-amount">-0đ</p>
+</div>
+<div class="space-y-4 font-body-md text-body-md">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Danh mục</span>
+<span class="font-medium text-on-surface">Ăn uống</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Tài khoản</span>
+<span class="font-medium text-on-surface">Tiền mặt</span>
+</div>
+</div>
+<div class="mt-8 flex gap-3">
+<button class="flex-1 bg-surface-variant text-on-surface rounded-full py-3 font-label-lg text-label-lg active:scale-95 transition-transform" onclick="closeTxModal()">Đóng</button>
+<button class="flex-1 bg-primary-container text-on-primary rounded-full py-3 font-label-lg text-label-lg shadow-sm active:scale-95 transition-transform">Sửa</button>
+</div>
+</div>
+</div>
+<!-- Quick Add Form Modal Backdrop -->
+<div class="fixed inset-0 bg-on-background/50 z-[60] fade-enter hidden backdrop-blur-sm" id="add-modal-backdrop" onclick="closeAddModal()"></div>
+<!-- Quick Add Form Modal -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest rounded-t-3xl z-[70] modal-enter hidden pb-safe-area-bottom shadow-2xl h-[707px] flex flex-col" id="add-modal">
+<div class="w-12 h-1.5 bg-outline-variant rounded-full mx-auto mt-3 mb-2 shrink-0"></div>
+<div class="px-container-padding flex justify-between items-center mb-4 shrink-0">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Thêm nhanh</h2>
+<button class="p-2 -mr-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors" onclick="closeAddModal()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="px-container-padding overflow-y-auto hide-scroll flex-1 pb-6 space-y-6">
+<!-- Amount Input -->
+<div class="text-center">
+<input class="w-full text-center bg-transparent border-none text-display-currency font-display-currency text-on-surface focus:ring-0 p-0" placeholder="0" type="text" value="0"/>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">VNĐ</p>
+</div>
+<!-- Type Tabs -->
+<div class="flex bg-surface-container-high rounded-full p-1 gap-1">
+<button class="flex-1 py-2 rounded-full bg-surface-container-lowest shadow-sm font-label-md text-label-md font-bold text-error">Chi tiêu</button>
+<button class="flex-1 py-2 rounded-full font-label-md text-label-md text-on-surface-variant">Thu nhập</button>
+</div>
+<!-- Categories -->
+<div>
+<p class="font-label-md text-label-md text-on-surface mb-3">Danh mục</p>
+<div class="grid grid-cols-4 gap-3">
+<div class="flex flex-col items-center gap-1 cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container border-2 border-primary-container">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</div>
+<span class="font-label-sm text-label-sm">Ăn uống</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined" data-icon="local_cafe">local_cafe</span>
+</div>
+<span class="font-label-sm text-label-sm">Cafe</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<span class="font-label-sm text-label-sm">Đi lại</span>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<span class="font-label-sm text-label-sm">Mua sắm</span>
+</div>
+</div>
+</div>
+<!-- Note Input -->
+<div>
+<input class="w-full h-[52px] rounded-full border border-outline-variant bg-surface px-4 font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-shadow" placeholder="Ghi chú (Không bắt buộc)" type="text"/>
+</div>
+<button class="w-full bg-primary-container text-on-primary rounded-full py-4 font-label-lg text-label-lg shadow-md active:scale-95 transition-transform mt-auto" onclick="closeAddModal()">Lưu giao dịch</button>
+</div>
+</div>
+<script>
+        // Chart Tooltip Logic
+        const tooltip = document.getElementById('chart-tooltip');
+        
+        function showTooltip(event, title, amount, txCount) {
+            document.getElementById('tooltip-title').innerText = title;
+            document.getElementById('tooltip-amount').innerText = amount;
+            document.getElementById('tooltip-tx').innerText = txCount;
+            
+            tooltip.style.display = 'block';
+            
+            // Positioning roughly based on svg mouseover
+            const rect = event.target.getBoundingClientRect();
+            const svgRect = event.target.closest('svg').getBoundingClientRect();
+            
+            let left = rect.left - svgRect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+            let top = rect.top - svgRect.top - tooltip.offsetHeight - 8;
+            
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.style.display = 'none';
+        }
+
+        // Modal Logic
+        const txModal = document.getElementById('tx-modal');
+        const txBackdrop = document.getElementById('tx-modal-backdrop');
+        
+        const addModal = document.getElementById('add-modal');
+        const addBackdrop = document.getElementById('add-modal-backdrop');
+
+        function openTxModal(title, amount, time, icon) {
+            document.getElementById('tx-modal-title').innerText = title;
+            document.getElementById('tx-modal-amount').innerText = amount;
+            document.getElementById('tx-modal-time').innerText = time;
+            document.getElementById('tx-modal-icon').innerText = icon;
+            
+            txBackdrop.style.display = 'block';
+            txModal.style.display = 'block';
+            
+            // Trigger reflow
+            void txModal.offsetWidth;
+            
+            txBackdrop.classList.add('fade-enter-active');
+            txBackdrop.classList.remove('fade-enter');
+            txModal.classList.add('modal-enter-active');
+            txModal.classList.remove('modal-enter');
+        }
+
+        function closeTxModal() {
+            txModal.classList.remove('modal-enter-active');
+            txModal.classList.add('modal-leave-active');
+            txBackdrop.classList.remove('fade-enter-active');
+            txBackdrop.classList.add('fade-leave-active');
+            
+            setTimeout(() => {
+                txModal.style.display = 'none';
+                txBackdrop.style.display = 'none';
+                txModal.classList.remove('modal-leave-active');
+                txModal.classList.add('modal-enter');
+                txBackdrop.classList.remove('fade-leave-active');
+                txBackdrop.classList.add('fade-enter');
+            }, 300);
+        }
+
+        function openAddModal() {
+            addBackdrop.style.display = 'block';
+            addModal.style.display = 'flex'; // It uses flex layout
+            
+            void addModal.offsetWidth;
+            
+            addBackdrop.classList.add('fade-enter-active');
+            addBackdrop.classList.remove('fade-enter');
+            addModal.classList.add('modal-enter-active');
+            addModal.classList.remove('modal-enter');
+        }
+
+        function closeAddModal() {
+            addModal.classList.remove('modal-enter-active');
+            addModal.classList.add('modal-leave-active');
+            addBackdrop.classList.remove('fade-enter-active');
+            addBackdrop.classList.add('fade-leave-active');
+            
+            setTimeout(() => {
+                addModal.style.display = 'none';
+                addBackdrop.style.display = 'none';
+                addModal.classList.remove('modal-leave-active');
+                addModal.classList.add('modal-enter');
+                addBackdrop.classList.remove('fade-leave-active');
+                addBackdrop.classList.add('fade-enter');
+            }, 300);
+        }
+
+        // Open modal if URL parameter is set
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('add') === 'true') {
+                setTimeout(openAddModal, 200);
+            }
+        });
+    </script>
+</body></html>

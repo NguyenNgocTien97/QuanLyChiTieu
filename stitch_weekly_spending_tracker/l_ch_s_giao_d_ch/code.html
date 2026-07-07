@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lịch Sử Giao Dịch</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#0053db",
+                        "on-secondary-fixed": "#0e1d2b",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "surface-container-low": "#f3f3fe",
+                        "surface-container-high": "#e7e7f3",
+                        "surface-variant": "#e1e2ed",
+                        "surface-container-highest": "#e1e2ed",
+                        "on-background": "#191b23",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b4c5ff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary-fixed-dim": "#b9c8db",
+                        "on-secondary-container": "#576676",
+                        "secondary-container": "#d5e4f8",
+                        "inverse-surface": "#2e3039",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-primary-container": "#eeefff",
+                        "outline": "#737686",
+                        "tertiary-container": "#bc4800",
+                        "on-primary-fixed": "#00174b",
+                        "on-secondary-fixed-variant": "#3a4858",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#ededf9",
+                        "surface-dim": "#d9d9e5",
+                        "secondary-fixed": "#d5e4f8",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface": "#191b23",
+                        "on-surface-variant": "#434655",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#943700",
+                        "inverse-on-surface": "#f0f0fb",
+                        "primary-container": "#2563eb",
+                        "on-tertiary-container": "#ffede6",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface": "#faf8ff",
+                        "secondary": "#516070",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "background": "#faf8ff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "outline-variant": "#c3c6d7",
+                        "primary": "#004ac6",
+                        "primary-fixed": "#dbe1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap-sm": "12px",
+                        "stack-gap-md": "16px",
+                        "container-padding": "20px",
+                        "stack-gap-lg": "24px",
+                        "safe-area-bottom": "34px",
+                        "inline-gap": "8px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-currency": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                        "display-currency": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom styles to prevent layout shifts */
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Hide scrollbar for horizontal lists */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .transaction-card {
+            transition: background-color 0.2s ease;
+        }
+        
+        .transaction-card:active {
+            background-color: #f0f0fb; /* inverse-on-surface */
+        }
+        
+        /* Smooth modal animations */
+        #detail-modal.show .modal-overlay,
+        #add-modal.show .modal-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        #detail-modal.show .modal-content,
+        #add-modal.show .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-content {
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden min-h-screen pb-[90px]">
+<!-- Top App Bar -->
+<header class="flex items-center justify-between px-container-padding h-[64px] w-full z-50 shadow-sm bg-surface sticky top-0 md:hidden">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Lịch Sử Giao Dịch</h1>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">more_vert</span>
+</button>
+</header>
+<main class="w-full max-w-md mx-auto md:mt-8 md:bg-surface-container-lowest md:shadow-lg md:rounded-3xl md:min-h-[800px] md:relative md:overflow-hidden relative">
+<!-- Desktop Header (Hidden on Mobile) -->
+<div class="hidden md:flex flex-col px-container-padding pt-stack-gap-lg pb-stack-gap-md border-b border-surface-variant bg-surface">
+<div class="flex items-center justify-between">
+<h1 class="font-headline-lg text-headline-lg text-primary">Lịch Sử Giao Dịch</h1>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
+</button>
+</div>
+</div>
+<div class="px-container-padding pt-stack-gap-md pb-stack-gap-sm sticky top-[64px] md:top-0 bg-surface z-40">
+<!-- Search Bar -->
+<div class="relative w-full h-[52px] mb-stack-gap-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full h-full pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" id="search-input" placeholder="Tìm kiếm giao dịch..." type="text"/>
+</div>
+<!-- Category Filters -->
+<div class="flex overflow-x-auto hide-scrollbar gap-inline-gap pb-2 snap-x" id="category-chips">
+<button class="filter-chip snap-start whitespace-nowrap px-4 py-2 rounded-full font-label-md text-label-md transition-colors bg-primary-container text-on-primary-container" data-category="all">
+                    Tất cả
+                </button>
+<button class="filter-chip snap-start whitespace-nowrap px-4 py-2 rounded-full font-label-md text-label-md transition-colors bg-surface-container-high text-on-surface-variant hover:bg-surface-variant" data-category="food">
+                    Ăn uống
+                </button>
+<button class="filter-chip snap-start whitespace-nowrap px-4 py-2 rounded-full font-label-md text-label-md transition-colors bg-surface-container-high text-on-surface-variant hover:bg-surface-variant" data-category="cafe">
+                    Cafe
+                </button>
+<button class="filter-chip snap-start whitespace-nowrap px-4 py-2 rounded-full font-label-md text-label-md transition-colors bg-surface-container-high text-on-surface-variant hover:bg-surface-variant" data-category="transport">
+                    Đi lại
+                </button>
+<button class="filter-chip snap-start whitespace-nowrap px-4 py-2 rounded-full font-label-md text-label-md transition-colors bg-surface-container-high text-on-surface-variant hover:bg-surface-variant" data-category="shopping">
+                    Mua sắm
+                </button>
+<button class="filter-chip snap-start whitespace-nowrap px-4 py-2 rounded-full font-label-md text-label-md transition-colors bg-surface-container-high text-on-surface-variant hover:bg-surface-variant" data-category="income">
+                    Thu nhập
+                </button>
+</div>
+</div>
+<!-- Transaction List -->
+<div class="px-container-padding pb-safe-area-bottom md:pb-stack-gap-lg flex flex-col gap-stack-gap-lg" id="transaction-list">
+<!-- Date Group: Today -->
+<div class="transaction-group">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant mb-stack-gap-sm px-2">Hôm nay, 7/7/2026</h3>
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="transaction-card flex items-center justify-between p-4 border-b border-surface-variant cursor-pointer" onclick="openDetailModal('Ăn trưa Văn phòng', '-50,000đ', 'food', 'Tiền mặt', '7/7/2026 12:30', 'Cơm rang dưa bò')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Ăn trưa Văn phòng</p>
+<p class="font-label-sm text-label-sm text-outline">12:30 • Tiền mặt</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error font-bold transaction-amount">-50,000đ</p>
+</div>
+<div class="transaction-card flex items-center justify-between p-4 border-b border-surface-variant cursor-pointer" onclick="openDetailModal('Xăng xe', '-40,000đ', 'transport', 'Vietcombank', '7/7/2026 08:15', 'Đổ xăng đi làm')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_gas_station</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Xăng xe</p>
+<p class="font-label-sm text-label-sm text-outline">08:15 • Vietcombank</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error font-bold transaction-amount">-40,000đ</p>
+</div>
+<div class="transaction-card flex items-center justify-between p-4 cursor-pointer" onclick="openDetailModal('Lương tuần', '+2,500,000đ', 'income', 'Vietcombank', '7/7/2026 07:00', 'Lương tuần 1 tháng 7')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#dcfce7] flex items-center justify-center text-[#166534] shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Lương tuần</p>
+<p class="font-label-sm text-label-sm text-outline">07:00 • Vietcombank</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-[#16a34a] font-bold transaction-amount">+2,500,000đ</p>
+</div>
+</div>
+</div>
+<!-- Date Group: Yesterday -->
+<div class="transaction-group">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant mb-stack-gap-sm px-2">Hôm qua, 6/7/2026</h3>
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="transaction-card flex items-center justify-between p-4 border-b border-surface-variant cursor-pointer" onclick="openDetailModal('Mua sắm quần áo', '-350,000đ', 'shopping', 'Momo', '6/7/2026 18:45', 'Áo phông Uniqlo')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">checkroom</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Mua sắm quần áo</p>
+<p class="font-label-sm text-label-sm text-outline">18:45 • Momo</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error font-bold transaction-amount">-350,000đ</p>
+</div>
+<div class="transaction-card flex items-center justify-between p-4 cursor-pointer" onclick="openDetailModal('Cà phê Tiamo', '-35,000đ', 'cafe', 'Tiền mặt', '6/7/2026 09:30', 'Cà phê sáng với khách')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_cafe</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Cà phê Tiamo</p>
+<p class="font-label-sm text-label-sm text-outline">09:30 • Tiền mặt</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error font-bold transaction-amount">-35,000đ</p>
+</div>
+</div>
+</div>
+<!-- Date Group: 4/7 -->
+<div class="transaction-group">
+<h3 class="font-label-lg text-label-lg text-on-surface-variant mb-stack-gap-sm px-2">Thứ Bảy, 4/7/2026</h3>
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="transaction-card flex items-center justify-between p-4 border-b border-surface-variant cursor-pointer" onclick="openDetailModal('Tiền điện nước', '-450,000đ', 'utility', 'Vietcombank', '4/7/2026 15:20', 'Thanh toán tháng 6')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Tiền điện nước</p>
+<p class="font-label-sm text-label-sm text-outline">15:20 • Vietcombank</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error font-bold transaction-amount">-450,000đ</p>
+</div>
+<div class="transaction-card flex items-center justify-between p-4 cursor-pointer" onclick="openDetailModal('Đồ tạp hóa', '-120,000đ', 'shopping', 'Tiền mặt', '4/7/2026 10:10', 'Mua đồ dùng cá nhân')">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_mall</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold transaction-name">Đồ tạp hóa</p>
+<p class="font-label-sm text-label-sm text-outline">10:10 • Tiền mặt</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-error font-bold transaction-amount">-120,000đ</p>
+</div>
+</div>
+</div>
+<!-- Empty State (Hidden initially) -->
+<div class="hidden flex-col items-center justify-center py-12 text-center" id="empty-state">
+<div class="w-24 h-24 mb-4 rounded-full bg-surface-variant flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Không tìm thấy giao dịch</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[250px]">Hãy thử tìm kiếm với từ khóa khác hoặc thay đổi bộ lọc danh mục.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-inline-gap pt-2 pb-safe-area-bottom bg-surface dark:bg-surface-container-high shadow-[0_-4px_12px_rgba(0,0,0,0.05)] md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-all active:scale-90 duration-150 rounded-2xl">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-md text-label-md">Trang chủ</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-4 py-1 hover:bg-surface-variant transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-label-md text-label-md font-semibold">Giao dịch</span>
+</button>
+<!-- FAB embedded in Nav (Logical for Dashboard/Home, but requested in prompt to open add modal) -->
+<button class="flex items-center justify-center w-14 h-14 bg-primary-container text-on-primary-container rounded-full shadow-[0_8px_16px_rgba(37,99,235,0.2)] -translate-y-4 hover:brightness-110 active:scale-95 transition-all z-10" onclick="document.getElementById('add-modal').classList.add('show')">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-all active:scale-90 duration-150 rounded-2xl">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+<span class="font-label-md text-label-md">Thống kê</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-variant transition-all active:scale-90 duration-150 rounded-2xl">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">account_balance</span>
+<span class="font-label-md text-label-md">Ngân sách</span>
+</button>
+</nav>
+<!-- Detail Modal -->
+<div class="fixed inset-0 z-[60] hidden flex-col justify-end pointer-events-none h-[884px]" id="detail-modal">
+<div class="modal-overlay absolute inset-0 bg-on-background/40 backdrop-blur-sm" onclick="closeDetailModal()"></div>
+<div class="modal-content relative bg-surface-container-lowest w-full max-w-md mx-auto rounded-t-[24px] flex flex-col pointer-events-auto h-auto max-h-[795px]">
+<div class="flex justify-center pt-4 pb-2" onclick="closeDetailModal()">
+<div class="w-12 h-1.5 bg-outline-variant rounded-full"></div>
+</div>
+<div class="px-container-padding pb-stack-gap-lg overflow-y-auto hide-scrollbar">
+<div class="flex items-center justify-between mb-stack-gap-lg pt-2">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Chi tiết giao dịch</h2>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors" onclick="closeDetailModal()">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<div class="flex flex-col items-center justify-center mb-stack-gap-lg">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-4" id="modal-icon-bg">
+<span class="material-symbols-outlined text-3xl" id="modal-icon" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-1" id="modal-title">Ăn trưa Văn phòng</h3>
+<p class="font-display-currency text-display-currency text-error font-bold" id="modal-amount">-50,000đ</p>
+</div>
+<div class="bg-surface-container rounded-2xl p-4 mb-stack-gap-lg flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-outline">Tài khoản</span>
+<span class="font-body-md text-body-md text-on-surface font-medium" id="modal-account">Tiền mặt</span>
+</div>
+<div class="h-px bg-outline-variant/30 w-full"></div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-outline">Thời gian</span>
+<span class="font-body-md text-body-md text-on-surface font-medium" id="modal-time">7/7/2026 12:30</span>
+</div>
+<div class="h-px bg-outline-variant/30 w-full"></div>
+<div class="flex flex-col gap-1">
+<span class="font-body-md text-body-md text-outline">Ghi chú</span>
+<span class="font-body-md text-body-md text-on-surface" id="modal-note">Cơm rang dưa bò</span>
+</div>
+</div>
+<div class="flex gap-4 w-full">
+<button class="flex-1 h-12 rounded-full border border-outline text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">edit</span>
+                        Sửa
+                    </button>
+<button class="flex-1 h-12 rounded-full border border-error text-error font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-error-container transition-colors active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">delete</span>
+                        Xóa
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Transaction Modal (Stub for interaction) -->
+<div class="fixed inset-0 z-[60] hidden flex-col justify-end pointer-events-none h-[884px]" id="add-modal">
+<div class="modal-overlay absolute inset-0 bg-on-background/40 backdrop-blur-sm" onclick="document.getElementById('add-modal').classList.remove('show'); setTimeout(() =&gt; document.getElementById('add-modal').classList.add('hidden'), 300);"></div>
+<div class="modal-content relative bg-surface-container-lowest w-full max-w-md mx-auto rounded-t-[24px] flex flex-col pointer-events-auto h-[707px]">
+<div class="flex justify-center pt-4 pb-2" onclick="document.getElementById('add-modal').classList.remove('show'); setTimeout(() =&gt; document.getElementById('add-modal').classList.add('hidden'), 300);">
+<div class="w-12 h-1.5 bg-outline-variant rounded-full"></div>
+</div>
+<div class="px-container-padding flex-1 flex flex-col justify-center items-center">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Thêm giao dịch mới</h2>
+<p class="text-on-surface-variant text-center">Biểu mẫu thêm giao dịch sẽ nằm ở đây.</p>
+<button class="mt-8 h-12 px-8 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg transition-colors active:scale-95" onclick="document.getElementById('add-modal').classList.remove('show'); setTimeout(() =&gt; document.getElementById('add-modal').classList.add('hidden'), 300);">
+                    Đóng
+                </button>
+</div>
+</div>
+</div>
+<script>
+        // Modal Logic
+        const detailModal = document.getElementById('detail-modal');
+        
+        function openDetailModal(title, amount, categoryStr, account, time, note) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-amount').textContent = amount;
+            
+            // Adjust amount color
+            const amountEl = document.getElementById('modal-amount');
+            if (amount.startsWith('+')) {
+                amountEl.className = 'font-display-currency text-display-currency text-[#16a34a] font-bold';
+            } else {
+                amountEl.className = 'font-display-currency text-display-currency text-error font-bold';
+            }
+
+            document.getElementById('modal-account').textContent = account;
+            document.getElementById('modal-time').textContent = time;
+            document.getElementById('modal-note').textContent = note;
+
+            // Simple icon mapping based on mock data
+            let iconName = 'receipt_long';
+            if(categoryStr === 'food') iconName = 'restaurant';
+            if(categoryStr === 'transport') iconName = 'local_gas_station';
+            if(categoryStr === 'income') iconName = 'payments';
+            if(categoryStr === 'shopping') iconName = 'checkroom'; // or local_mall
+            if(categoryStr === 'cafe') iconName = 'local_cafe';
+            if(categoryStr === 'utility') iconName = 'bolt';
+            
+            document.getElementById('modal-icon').textContent = iconName;
+            
+            // Adjust icon bg color for income
+            const iconBg = document.getElementById('modal-icon-bg');
+            if(categoryStr === 'income'){
+                iconBg.className = 'w-16 h-16 rounded-full bg-[#dcfce7] flex items-center justify-center text-[#166534] mb-4';
+            } else {
+                iconBg.className = 'w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-4';
+            }
+
+
+            detailModal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animating opacity/transform
+            setTimeout(() => {
+                detailModal.classList.add('show');
+            }, 10);
+        }
+
+        function closeDetailModal() {
+            detailModal.classList.remove('show');
+            setTimeout(() => {
+                detailModal.classList.add('hidden');
+            }, 300); // Wait for transition
+        }
+
+        // Search and Filter Logic
+        const searchInput = document.getElementById('search-input');
+        const filterChips = document.querySelectorAll('.filter-chip');
+        const transactionCards = document.querySelectorAll('.transaction-card');
+        const transactionGroups = document.querySelectorAll('.transaction-group');
+        const emptyState = document.getElementById('empty-state');
+        
+        let activeCategory = 'all';
+
+        // Add dummy data-category to cards for filtering logic demonstration
+        // Normally this would be rendered by backend or complex state
+        const categoryMap = {
+            'Ăn trưa Văn phòng': 'food',
+            'Xăng xe': 'transport',
+            'Lương tuần': 'income',
+            'Mua sắm quần áo': 'shopping',
+            'Cà phê Tiamo': 'cafe',
+            'Tiền điện nước': 'utility', // mapping to all if no chip
+            'Đồ tạp hóa': 'shopping'
+        };
+
+        transactionCards.forEach(card => {
+            const name = card.querySelector('.transaction-name').textContent;
+            card.dataset.category = categoryMap[name] || 'all';
+        });
+
+
+        function filterTransactions() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+
+            transactionGroups.forEach(group => {
+                const cardsInGroup = group.querySelectorAll('.transaction-card');
+                let groupVisible = false;
+
+                cardsInGroup.forEach(card => {
+                    const name = card.querySelector('.transaction-name').textContent.toLowerCase();
+                    const category = card.dataset.category;
+                    
+                    const matchesSearch = name.includes(searchTerm);
+                    const matchesCategory = activeCategory === 'all' || category === activeCategory;
+
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'flex';
+                        groupVisible = true;
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Hide group header if no cards visible
+                if (groupVisible) {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+            }
+        }
+
+        searchInput.addEventListener('input', filterTransactions);
+
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                // Update active styles
+                filterChips.forEach(c => {
+                    c.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    c.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                });
+                
+                chip.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+                chip.classList.add('bg-primary-container', 'text-on-primary-container');
+
+                activeCategory = chip.dataset.category;
+                filterTransactions();
+                
+                // Optional: Scroll chip into view smoothly
+                chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+        });
+
+        // Initialize Add Modal display setup
+        const addModal = document.getElementById('add-modal');
+        // Overriding the inline onclick to ensure display block happens before class add
+        document.querySelector('[onclick*="add-modal"]').onclick = function(e) {
+            e.preventDefault();
+            addModal.classList.remove('hidden');
+            setTimeout(() => {
+                addModal.classList.add('show');
+            }, 10);
+        };
+    </script>
+</body></html>

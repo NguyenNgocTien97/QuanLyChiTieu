@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quản Lý Ngân Sách</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#3a4858",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "primary": "#004ac6",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e7e7f3",
+                        "surface": "#faf8ff",
+                        "on-surface-variant": "#434655",
+                        "surface-container-highest": "#e1e2ed",
+                        "surface-bright": "#faf8ff",
+                        "inverse-surface": "#2e3039",
+                        "surface-container-low": "#f3f3fe",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-secondary-fixed": "#0e1d2b",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-secondary-container": "#576676",
+                        "tertiary": "#943700",
+                        "secondary-container": "#d5e4f8",
+                        "surface-dim": "#d9d9e5",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-tint": "#0053db",
+                        "primary-container": "#2563eb",
+                        "on-background": "#191b23",
+                        "on-tertiary-container": "#ffede6",
+                        "on-surface": "#191b23",
+                        "secondary-fixed": "#d5e4f8",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container": "#ededf9",
+                        "on-primary-container": "#eeefff",
+                        "secondary": "#516070",
+                        "primary-fixed": "#dbe1ff",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#bc4800",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary": "#ffffff",
+                        "background": "#faf8ff",
+                        "surface-variant": "#e1e2ed",
+                        "secondary-fixed-dim": "#b9c8db"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "inline-gap": "8px",
+                        "stack-gap-md": "16px",
+                        "stack-gap-lg": "24px",
+                        "safe-area-bottom": "34px",
+                        "stack-gap-sm": "12px",
+                        "container-padding": "20px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-currency": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-currency": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-md-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-sans antialiased max-w-[390px] mx-auto min-h-screen relative overflow-x-hidden flex flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between px-container-padding h-[64px] w-full z-50 bg-surface dark:bg-background shadow-sm dark:bg-surface-dim top-0 sticky">
+<button aria-label="Go Back" class="w-10 h-10 flex items-center justify-center rounded-full active:scale-95 transition-transform duration-200 text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary dark:text-primary-fixed-dim">Quản Lý Ngân Sách</h1>
+<button aria-label="Information" class="w-10 h-10 flex items-center justify-center rounded-full active:scale-95 transition-transform duration-200 text-on-surface-variant hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-container-padding py-stack-gap-md pb-[100px] flex flex-col gap-stack-gap-lg">
+<!-- Total Budget Card -->
+<section class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Tổng ngân sách tuần</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">2.000.000đ</h2>
+</div>
+<button class="bg-secondary-container text-primary-container px-3 py-1.5 rounded-full font-label-sm text-label-sm flex items-center gap-1 active:scale-95 transition-transform" onclick="toggleModal('modal-total-budget')">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+                    Thay đổi
+                </button>
+</div>
+<div class="flex flex-col gap-2 mt-2">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Đã chi 1.300.000đ</span>
+<span class="text-[#d97706] font-bold">65%</span>
+</div>
+<div class="h-2 w-full bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-[#f59e0b] rounded-full" style="width: 65%;"></div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-right mt-1">Còn lại: 700.000đ</p>
+</div>
+</section>
+<!-- Category Budgets List -->
+<section class="flex flex-col gap-stack-gap-sm">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Hạn mức danh mục</h3>
+<!-- Category: Ăn uống -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container shrink-0">
+<span class="material-symbols-outlined icon-fill" data-icon="restaurant">restaurant</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg text-on-surface">Ăn uống</span>
+<span class="font-label-md text-label-md text-on-surface-variant">1.000.000đ</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-[#f59e0b] rounded-full" style="width: 65%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#d97706] w-8 text-right">65%</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Đã chi: 650.000đ</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 shrink-0" onclick="toggleModal('modal-category-budget')">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+</div>
+<!-- Category: Mua sắm -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined icon-fill" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg text-on-surface">Mua sắm</span>
+<span class="font-label-md text-label-md text-on-surface-variant">500.000đ</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-[#f59e0b] rounded-full" style="width: 70%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#d97706] w-8 text-right">70%</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Đã chi: 350.000đ</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 shrink-0" onclick="toggleModal('modal-category-budget')">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+</div>
+<!-- Category: Đi lại -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#0d9488]/10 flex items-center justify-center text-[#0d9488] shrink-0">
+<span class="material-symbols-outlined icon-fill" data-icon="directions_car">directions_car</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg text-on-surface">Đi lại</span>
+<span class="font-label-md text-label-md text-on-surface-variant">200.000đ</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-[#f59e0b] rounded-full" style="width: 75%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#d97706] w-8 text-right">75%</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Đã chi: 150.000đ</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 shrink-0" onclick="toggleModal('modal-category-budget')">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+</div>
+<!-- Category: Giải trí -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#9333ea]/10 flex items-center justify-center text-[#9333ea] shrink-0">
+<span class="material-symbols-outlined icon-fill" data-icon="movie">movie</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg text-on-surface">Giải trí</span>
+<span class="font-label-md text-label-md text-on-surface-variant">300.000đ</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-[#16a34a] rounded-full" style="width: 50%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#16a34a] w-8 text-right">50%</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Đã chi: 150.000đ</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 shrink-0" onclick="toggleModal('modal-category-budget')">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+</div>
+<!-- Category: Học tập -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined icon-fill" data-icon="school">school</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg text-on-surface">Học tập</span>
+<span class="font-label-md text-label-md text-error">100.000đ</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-error-container rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 100%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-error w-8 text-right">120%</span>
+</div>
+<p class="font-label-sm text-label-sm text-error">Đã chi: 120.000đ (Vượt mức)</p>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 shrink-0" onclick="toggleModal('modal-category-budget')">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-inline-gap pt-2 pb-safe-area-bottom shadow-[0_-4px_12px_rgba(0,0,0,0.05)] bg-surface dark:bg-surface-container-high md:hidden rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant/20 transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md mt-1">Trang chủ</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant/20 transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-md text-label-md mt-1">Giao dịch</span>
+</button>
+<!-- Center FAB-like action in Nav -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container h-12 w-12 rounded-full -mt-6 shadow-lg active:scale-90 transition-transform duration-150 relative z-10 border-4 border-surface">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant/20 transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-md text-label-md mt-1">Thống kê</span>
+</button>
+<!-- ACTIVE TAB -->
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-2xl px-4 py-1 hover:bg-surface-variant dark:hover:bg-surface-variant/20 transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined icon-fill" data-icon="account_balance">account_balance</span>
+<span class="font-label-md text-label-md mt-1 font-semibold">Ngân sách</span>
+</button>
+</nav>
+<!-- Modals (Hidden by default) -->
+<!-- Total Budget Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center px-container-padding transition-opacity duration-300 opacity-0 pointer-events-none" id="modal-total-budget">
+<div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="toggleModal('modal-total-budget')"></div>
+<div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-sm relative z-10 shadow-lg transform scale-95 transition-transform duration-300 flex flex-col gap-4">
+<h3 class="font-headline-md-mobile text-headline-md-mobile text-on-surface">Cập nhật ngân sách tuần</h3>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Tổng số tiền (VNĐ)</label>
+<div class="relative">
+<input class="w-full h-[52px] rounded-full border border-outline-variant px-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-body-lg text-body-lg text-on-surface text-right pr-12" type="text" value="2.000.000"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 font-label-md text-label-md text-on-surface-variant">đ</span>
+</div>
+</div>
+<div class="flex gap-2 mt-4">
+<button class="flex-1 h-12 rounded-full bg-secondary-container text-on-secondary-container font-label-lg text-label-lg active:scale-95 transition-transform" onclick="toggleModal('modal-total-budget')">Hủy</button>
+<button class="flex-1 h-12 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg active:scale-95 transition-transform" onclick="toggleModal('modal-total-budget')">Lưu</button>
+</div>
+</div>
+</div>
+<!-- Category Budget Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center px-container-padding transition-opacity duration-300 opacity-0 pointer-events-none" id="modal-category-budget">
+<div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="toggleModal('modal-category-budget')"></div>
+<div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-sm relative z-10 shadow-lg transform scale-95 transition-transform duration-300 flex flex-col gap-4">
+<h3 class="font-headline-md-mobile text-headline-md-mobile text-on-surface">Sửa hạn mức danh mục</h3>
+<div class="flex items-center gap-3 mb-2 p-3 bg-surface-container rounded-xl">
+<div class="w-10 h-10 rounded-full bg-tertiary-container/10 flex items-center justify-center text-tertiary-container shrink-0">
+<span class="material-symbols-outlined icon-fill" data-icon="restaurant">restaurant</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Ăn uống</span>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Số tiền hạn mức (VNĐ)</label>
+<div class="relative">
+<input class="w-full h-[52px] rounded-full border border-outline-variant px-4 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-body-lg text-body-lg text-on-surface text-right pr-12" type="text" value="1.000.000"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 font-label-md text-label-md text-on-surface-variant">đ</span>
+</div>
+</div>
+<div class="flex gap-2 mt-4">
+<button class="flex-1 h-12 rounded-full bg-secondary-container text-on-secondary-container font-label-lg text-label-lg active:scale-95 transition-transform" onclick="toggleModal('modal-category-budget')">Hủy</button>
+<button class="flex-1 h-12 rounded-full bg-primary-container text-on-primary-container font-label-lg text-label-lg active:scale-95 transition-transform" onclick="toggleModal('modal-category-budget')">Lưu</button>
+</div>
+</div>
+</div>
+<script>
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('.scale-95');
+            
+            if (modal.classList.contains('hidden')) {
+                // Show
+                modal.classList.remove('hidden');
+                modal.classList.remove('pointer-events-none');
+                // Trigger reflow
+                void modal.offsetWidth;
+                modal.classList.remove('opacity-0');
+                if(content) {
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                }
+            } else {
+                // Hide
+                modal.classList.add('opacity-0');
+                modal.classList.add('pointer-events-none');
+                if(content) {
+                    content.classList.remove('scale-100');
+                    content.classList.add('scale-95');
+                }
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+    </script>
+</body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cá Nhân &amp; Cài Đặt</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e1e2ed",
+                        "surface-dim": "#d9d9e5",
+                        "surface-container-high": "#e7e7f3",
+                        "surface-container": "#ededf9",
+                        "tertiary": "#943700",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#00174b",
+                        "background": "#faf8ff",
+                        "on-surface-variant": "#434655",
+                        "surface-tint": "#0053db",
+                        "secondary-fixed-dim": "#b9c8db",
+                        "inverse-surface": "#2e3039",
+                        "on-primary-container": "#eeefff",
+                        "on-secondary-fixed": "#0e1d2b",
+                        "on-background": "#191b23",
+                        "secondary": "#516070",
+                        "secondary-fixed": "#d5e4f8",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface": "#faf8ff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "primary-container": "#2563eb",
+                        "inverse-primary": "#b4c5ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "on-secondary-fixed-variant": "#3a4858",
+                        "surface-container-highest": "#e1e2ed",
+                        "outline": "#737686",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-surface": "#191b23",
+                        "primary": "#004ac6",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-container-low": "#f3f3fe",
+                        "on-secondary-container": "#576676",
+                        "tertiary-container": "#bc4800",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#d5e4f8",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#360f00"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "stack-gap-sm": "12px",
+                        "stack-gap-lg": "24px",
+                        "inline-gap": "8px",
+                        "stack-gap-md": "16px",
+                        "safe-area-bottom": "34px",
+                        "container-padding": "20px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Inter"],
+                        "display-currency": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "display-currency": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-lg": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+                        "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "label-sm": ["11px", { lineHeight: "16px", letterSpacing: "0.03em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Ambient shadows */
+        .shadow-level-1 { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        .shadow-level-2 { box-shadow: 0 8px 16px rgba(37, 99, 235, 0.1); }
+        
+        .dark body { background-color: #111827; color: white; }
+        .dark .bg-surface { background-color: #1F2937; }
+        .dark .text-on-surface { color: white; }
+        .dark .text-on-surface-variant { color: #9CA3AF; }
+        .dark .bg-surface-variant { background-color: #374151; }
+        
+        /* Modal & Toast transition */
+        .toast-enter { opacity: 0; transform: translateY(20px); }
+        .toast-enter-active { opacity: 1; transform: translateY(0); transition: opacity 300ms, transform 300ms; }
+        .toast-exit { opacity: 1; transform: translateY(0); }
+        .toast-exit-active { opacity: 0; transform: translateY(20px); transition: opacity 300ms, transform 300ms; }
+        
+        .modal-enter { transform: translateY(100%); }
+        .modal-enter-active { transform: translateY(0); transition: transform 300ms ease-out; }
+        .modal-exit { transform: translateY(0); }
+        .modal-exit-active { transform: translateY(100%); transition: transform 300ms ease-in; }
+    </style>
+</head>
+<body class="bg-surface transition-colors duration-300 min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding h-[64px] w-full z-50 bg-surface dark:bg-background shadow-sm dark:bg-surface-dim docked full-width top-0 sticky">
+<div class="flex-1"></div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim text-center flex-1">Cá Nhân</h1>
+<div class="flex-1 flex justify-end">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant dark:text-outline hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="exit_to_app">exit_to_app</span>
+</button>
+</div>
+</header>
+<main class="px-container-padding pt-stack-gap-lg space-y-stack-gap-lg max-w-md mx-auto">
+<!-- Profile Section -->
+<section class="flex flex-col items-center">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-surface shadow-level-1 relative mb-4">
+<img class="w-full h-full object-cover" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Nguyễn Văn A</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">nguyenvana@example.com</p>
+<div class="mt-3 bg-[#DBEAFE] text-primary-container px-4 py-1.5 rounded-full font-label-md text-label-md inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] fill" data-icon="stars">stars</span>
+                Thành viên từ: 05/2026
+            </div>
+</section>
+<!-- Settings Groups -->
+<div class="space-y-stack-gap-md">
+<!-- Group 1: Tài khoản -->
+<div class="bg-white dark:bg-surface rounded-2xl shadow-level-1 overflow-hidden">
+<div class="px-4 py-3 font-label-lg text-label-lg text-on-surface-variant dark:text-outline border-b border-surface-variant dark:border-surface-variant/20 bg-surface-container-lowest dark:bg-surface/50">
+                    Tài khoản
+                </div>
+<ul class="divide-y divide-surface-variant dark:divide-surface-variant/20">
+<li class="flex items-center justify-between px-4 py-4 hover:bg-surface-variant/50 cursor-pointer transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Thông tin tài khoản</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</li>
+<li class="flex items-center justify-between px-4 py-4 hover:bg-surface-variant/50 cursor-pointer transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="translate">translate</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Đơn vị &amp; Ngôn ngữ</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-md text-body-md text-on-surface-variant">VND | Tiếng Việt</span>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Group 2: Tùy chỉnh & Bảo mật -->
+<div class="bg-white dark:bg-surface rounded-2xl shadow-level-1 overflow-hidden">
+<div class="px-4 py-3 font-label-lg text-label-lg text-on-surface-variant dark:text-outline border-b border-surface-variant dark:border-surface-variant/20 bg-surface-container-lowest dark:bg-surface/50">
+                    Tùy chỉnh &amp; Bảo mật
+                </div>
+<ul class="divide-y divide-surface-variant dark:divide-surface-variant/20">
+<li class="flex items-center justify-between px-4 py-4 hover:bg-surface-variant/50 cursor-pointer transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Tùy chỉnh danh mục</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</li>
+<li class="flex items-center justify-between px-4 py-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Chế độ tối</span>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="darkModeToggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</li>
+</ul>
+</div>
+<!-- Group 3: Dữ liệu & Hỗ trợ -->
+<div class="bg-white dark:bg-surface rounded-2xl shadow-level-1 overflow-hidden mb-8">
+<div class="px-4 py-3 font-label-lg text-label-lg text-on-surface-variant dark:text-outline border-b border-surface-variant dark:border-surface-variant/20 bg-surface-container-lowest dark:bg-surface/50">
+                    Dữ liệu &amp; Hỗ trợ
+                </div>
+<ul class="divide-y divide-surface-variant dark:divide-surface-variant/20">
+<li class="flex items-center justify-between px-4 py-4 hover:bg-surface-variant/50 cursor-pointer transition-colors" id="exportBtn">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Xuất dữ liệu (CSV/Excel)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Báo cáo chi tiêu</span>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</li>
+<li class="flex items-center justify-between px-4 py-4 hover:bg-surface-variant/50 cursor-pointer transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface">Trợ giúp &amp; Phản hồi</span>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</li>
+</ul>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-40 bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-xl px-2 pt-2 pb-safe-area-bottom flex justify-around items-center">
+<!-- Trang chủ -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="index.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="text-[10px] mt-0.5">Trang chủ</span>
+</a>
+<!-- Giao dịch -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="transactions.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="text-[10px] mt-0.5">Giao dịch</span>
+</a>
+<!-- FAB Add -->
+<div class="relative -top-6">
+<a class="w-14 h-14 bg-primary-container text-on-primary rounded-full flex items-center justify-center shadow-lg shadow-primary-container/30 hover:scale-105 active:scale-95 transition-transform" href="index.html?add=true">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</a>
+</div>
+<!-- Thống kê -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="statistics.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+<span class="text-[10px] mt-0.5">Thống kê</span>
+</a>
+<!-- Ngân sách -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 rounded-2xl px-3 py-1.5 transition-all active:scale-90" href="budget.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance</span>
+<span class="text-[10px] mt-0.5">Ngân sách</span>
+</a>
+</nav>
+<!-- Toast Notification -->
+<div class="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full font-body-md text-body-md shadow-lg z-50 pointer-events-none opacity-0 transition-all duration-300" id="toast">
+        Xuất dữ liệu thành công!
+    </div>
+<!-- Scripting for Interactivity -->
+<script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        darkModeToggle.addEventListener('change', () => {
+            if (darkModeToggle.checked) {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+        });
+
+        // Toast Notification for Export
+        const exportBtn = document.getElementById('exportBtn');
+        const toast = document.getElementById('toast');
+        let toastTimeout;
+
+        exportBtn.addEventListener('click', () => {
+            clearTimeout(toastTimeout);
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, -10px)';
+            
+            toastTimeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, 20px)';
+            }, 2000);
+        });
+
+    </script>
+</body></html>
