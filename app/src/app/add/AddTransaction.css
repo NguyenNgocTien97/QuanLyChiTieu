@@ -1,0 +1,140 @@
+.add-transaction {
+  padding: var(--spacing-container);
+  padding-bottom: 80px;
+}
+
+.page-header {
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: var(--font-size-label-md);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.flex-1 {
+  flex: 1;
+  min-width: 0;
+}
+
+.input-field {
+  height: 52px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  padding: 0 20px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-body-lg);
+  background-color: var(--color-surface-white);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color 0.2s ease;
+  min-width: 0;
+}
+
+input[type="date"].input-field {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+select.input-field option {
+  background-color: var(--color-surface-white);
+  color: var(--color-text-primary);
+}
+
+select.input-field {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 40px;
+  text-overflow: ellipsis;
+}
+
+.input-field:focus {
+  border-color: var(--color-primary);
+}
+
+.amount-input {
+  font-size: var(--font-size-headline-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.submit-btn {
+  margin-top: var(--spacing-sm);
+}
+
+.custom-select-wrapper {
+  position: relative;
+}
+
+.custom-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: var(--color-surface-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-level-2);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 12px 20px;
+  font-size: var(--font-size-body-lg);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-bg);
+}
+
+.dropdown-item.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
