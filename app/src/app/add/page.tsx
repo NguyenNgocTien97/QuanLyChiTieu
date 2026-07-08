@@ -192,7 +192,7 @@ export default function AddTransaction() {
               <div 
                 className="input-field date-display-wrapper" 
                 style={{display: 'flex', alignItems: 'center', cursor: 'pointer', position: 'relative'}}
-                onClick={() => document.getElementById('dateInput')?.showPicker()}
+                onClick={() => (document.getElementById('dateInput') as HTMLInputElement)?.showPicker?.()}
               >
                 <span style={{ fontSize: '14px' }}>{formatDateDisplay(date)}</span>
                 <input 

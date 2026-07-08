@@ -87,7 +87,7 @@ export default function TrendChart({ data, lang = 'vi' }: { data: TrendData[], l
             />
             <YAxis hide />
             <Tooltip 
-              formatter={(value: number) => [formatCurrency(value), '']}
+              formatter={(value: any) => [formatCurrency(Number(value) || 0), '']}
               labelStyle={{ color: 'var(--color-text-secondary)' }}
               contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: 'var(--shadow-level-1)' }}
             />
