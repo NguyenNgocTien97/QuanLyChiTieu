@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,8 +27,10 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{__html: `if(localStorage.getItem('theme')==='dark'){document.body.classList.add('dark');}`}} />
         <div className="app-container">
-          {children}
-          <BottomNav />
+          <Providers>
+            {children}
+            <BottomNav />
+          </Providers>
         </div>
       </body>
     </html>

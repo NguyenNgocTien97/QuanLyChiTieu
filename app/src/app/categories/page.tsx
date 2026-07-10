@@ -1,5 +1,6 @@
 import { getDefaultUser } from '@/lib/user';
 import { prisma } from '@/lib/prisma';
+import { translateCategory } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { ArrowLeft, Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -29,10 +30,10 @@ export default async function CategoriesPage() {
           {categories.map(c => (
             <div key={c.id} className="category-item">
               <div className="category-icon" style={{ backgroundColor: `${c.color}15`, color: c.color }}>
-                {c.name.charAt(0)}
+                {translateCategory(c.name, lang).charAt(0)}
               </div>
               <div className="category-info">
-                <p className="category-name">{c.name}</p>
+                <p className="category-name">{translateCategory(c.name, lang)}</p>
                 <p className="category-type">{c.type === 'EXPENSE' ? (lang === 'vi' ? 'Chi tiêu' : 'Expense') : (lang === 'vi' ? 'Thu nhập' : 'Income')}</p>
               </div>
               <DeleteCategoryButton id={c.id} />

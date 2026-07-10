@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
-import { ChevronRight, Wallet, LayoutGrid, Globe, Moon, Download, Trash2 } from 'lucide-react';
+import { ChevronRight, Wallet, LayoutGrid, Globe, Moon, Download, Trash2, LogOut } from 'lucide-react';
+import { GoogleIcon } from '@/components/ui/GoogleIcon';
 import Link from 'next/link';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import './Profile.css';
 
 export default function Profile() {
@@ -12,6 +14,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [lang, setLang] = useState('vi');
+  const { data: session } = useSession();
 
   useEffect(() => {
     Promise.resolve().then(() => {
@@ -70,12 +73,16 @@ export default function Profile() {
       </header>
 
       <section className="user-profile-section">
-        <div className="avatar-large">
-          {name.charAt(0).toUpperCase()}
-        </div>
+        {session?.user?.image ? (
+          <img src={session.user.image} alt="Avatar" className="avatar-large" style={{ borderRadius: '50%', objectFit: 'cover' }} />
+        ) : (
+          <div className="avatar-large">
+            {name.charAt(0).toUpperCase()}
+          </div>
+        )}
         <div className="user-info-large">
-          <h2 className="user-name">{name}</h2>
-          <p className="user-email">{email}</p>
+          <h2 className="user-name">{session?.user?.name || name}</h2>
+          <p className="user-email">{session?.user?.email || email}</p>
         </div>
       </section>
 
@@ -102,6 +109,31 @@ export default function Profile() {
               </div>
               <ChevronRight size={20} className="text-tertiary" />
             </Link>
+          </Card>
+        </div>
+
+        <div className="settings-group">
+          <h3 className="settings-group-title">{lang === 'vi' ? 'ĐỒNG BỘ ĐÁM MÂY' : 'CLOUD SYNC'}</h3>
+          <Card className="settings-card">
+            {session ? (
+              <div className="settings-item cursor-pointer" onClick={() => signOut()}>
+                <div className="settings-item-left">
+                  <div className="settings-icon-wrapper bg-red-light">
+                    <LogOut size={18} className="text-expense" />
+                  </div>
+                  <span className="settings-label text-expense">{lang === 'vi' ? 'Đăng xuất' : 'Sign Out'}</span>
+                </div>
+              </div>
+            ) : (
+              <div className="settings-item cursor-pointer" onClick={() => signIn('google')}>
+                <div className="settings-item-left">
+                  <div className="settings-icon-wrapper bg-white" style={{ border: '1px solid var(--color-border)' }}>
+                    <GoogleIcon size={18} />
+                  </div>
+                  <span className="settings-label text-blue">{lang === 'vi' ? 'Đăng nhập Google để đồng bộ' : 'Sign in with Google to sync'}</span>
+                </div>
+              </div>
+            )}
           </Card>
         </div>
 

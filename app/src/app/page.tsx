@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
-import { formatCurrency, getStartAndEndOfWeek } from '@/lib/utils';
+import { formatCurrency, getStartAndEndOfWeek, translateCategory } from '@/lib/utils';
 import { ArrowDownToLine, ArrowUpToLine, ListTodo, PieChart } from 'lucide-react';
 import { NotificationBell } from '@/components/ui/NotificationBell';
 import './Dashboard.css';
@@ -33,12 +33,30 @@ export default async function Dashboard() {
   const remaining = totalIncome - totalSpent;
   const recentTransactions = allTransactions.slice(0, 5); // Take top 5
 
+  const weeklyTransactions = allTransactions.filter(t => 
+    new Date(t.date) >= start && new Date(t.date) <= end
+  );
+
+  const categorySpending = weeklyTransactions.reduce((acc, t) => {
+    if (t.category.type === 'EXPENSE') {
+      acc[t.categoryId] = (acc[t.categoryId] || 0) + t.amount;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+
+  const budgetedCategories = (await prisma.category.findMany({
+    where: { userId: user.id, budgetLimit: { not: null } }
+  })).map(cat => ({
+    ...cat,
+    spent: categorySpending[cat.id] || 0
+  }));
+
   return (
     <main className="dashboard">
       <header className="app-header-new">
         <div className="header-left">
           <div className="user-avatar-small">
-            {user.name.charAt(0)}
+            {(user.name || 'U').charAt(0)}
           </div>
           <div className="greeting">
             <span className="greeting-text">{lang === 'vi' ? 'Xin chào,' : 'Hello,'}</span>
@@ -85,6 +103,35 @@ export default async function Dashboard() {
         </Link>
       </section>
 
+      {budgetedCategories.length > 0 && (
+        <section className="budget-progress-section" style={{ padding: '0 1.25rem', marginBottom: '1.5rem' }}>
+          <div className="section-header">
+            <h3 className="section-title">{lang === 'vi' ? 'Ngân sách danh mục (Tuần này)' : 'Category Budget (This Week)'}</h3>
+          </div>
+          <Card className="budget-progress-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {budgetedCategories.map(cat => {
+              const progress = Math.min((cat.spent / (cat.budgetLimit || 1)) * 100, 100);
+              const isOver = cat.spent > (cat.budgetLimit || 0);
+              return (
+                <div key={cat.id} className="category-progress-item">
+                  <div className="progress-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+                    <span className="category-name font-medium">{translateCategory(cat.name, lang)}</span>
+                    <span className={`progress-text ${isOver ? 'text-expense font-bold' : 'text-secondary'}`}>
+                      {formatCurrency(cat.spent)} / {formatCurrency(cat.budgetLimit || 0)}
+                    </span>
+                  </div>
+                  <ProgressBar 
+                    progress={progress} 
+                    color={isOver ? '#ef4444' : cat.color} 
+                    height={8} 
+                  />
+                </div>
+              );
+            })}
+          </Card>
+        </section>
+      )}
+
       <section className="recent-transactions">
         <div className="section-header">
           <h3 className="section-title">{lang === 'vi' ? 'Giao dịch gần đây' : 'Recent Transactions'}</h3>
@@ -99,10 +146,10 @@ export default async function Dashboard() {
                   className="category-icon" 
                   style={{ backgroundColor: `${t.category.color}15`, color: t.category.color }}
                 >
-                  {t.category.name.charAt(0)}
+                  {translateCategory(t.category.name, lang).charAt(0)}
                 </div>
                 <div className="transaction-details">
-                  <p className="transaction-note">{t.note || t.category.name}</p>
+                  <p className="transaction-note">{t.note || translateCategory(t.category.name, lang)}</p>
                   <p className="transaction-date">
                     {new Date(t.date).toLocaleDateString('vi-VN')} • {new Date(t.date).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})}
                   </p>

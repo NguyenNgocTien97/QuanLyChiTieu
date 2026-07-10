@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { ChevronDown } from 'lucide-react';
+import { translateCategory } from '@/lib/utils';
 import './AddTransaction.css';
 
 interface Category {
@@ -148,7 +149,7 @@ export default function AddTransaction() {
               >
                 <span>
                   {selectedCategory 
-                    ? `${selectedCategory.name} ${selectedCategory.type === 'INCOME' ? t.income : t.expense}` 
+                    ? `${translateCategory(selectedCategory.name, lang)} ${selectedCategory.type === 'INCOME' ? t.income : t.expense}` 
                     : t.selectCategory}
                 </span>
                 <ChevronDown size={20} color="var(--color-text-secondary)" />
@@ -166,7 +167,7 @@ export default function AddTransaction() {
                           setShowCat(false);
                         }}
                       >
-                        {c.name} {c.type === 'INCOME' ? t.income : t.expense}
+                        {translateCategory(c.name, lang)} {c.type === 'INCOME' ? t.income : t.expense}
                       </div>
                     ))}
                   </div>

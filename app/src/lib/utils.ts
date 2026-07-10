@@ -18,3 +18,19 @@ export function getStartAndEndOfWeek(date = new Date()) {
 
   return { start, end };
 }
+
+export function translateCategory(name: string, lang: string): string {
+  if (lang === 'vi') return name;
+  const translations: Record<string, string> = {
+    'Ăn uống': 'Food & Dining',
+    'Đi lại': 'Transport',
+    'Mua sắm': 'Shopping',
+    'Lương': 'Salary',
+    'Giải trí': 'Entertainment',
+    'Sức khỏe': 'Health',
+    'Hóa đơn': 'Bills',
+    'Giáo dục': 'Education',
+    'Khác': 'Others'
+  };
+  return translations[name] || name;
+}

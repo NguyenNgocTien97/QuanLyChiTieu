@@ -1,7 +1,7 @@
 import { getDefaultUser } from '@/lib/user';
 import { prisma } from '@/lib/prisma';
 import { Card } from '@/components/ui/Card';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, translateCategory } from '@/lib/utils';
 import TrendChart from './StatsChart'; // Now exports TrendChart
 import { ArrowLeft, MapPin, TrendingDown, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
@@ -50,7 +50,7 @@ export default async function Stats() {
   // Aggregate by category for THIS week
   const categoryMap = new Map<string, { name: string; color: string; total: number; type: string }>();
   thisWeekTransactions.forEach(t => {
-    const existing = categoryMap.get(t.categoryId) || { name: t.category.name, color: t.category.color, total: 0, type: t.category.type };
+    const existing = categoryMap.get(t.categoryId) || { name: translateCategory(t.category.name, lang), color: t.category.color, total: 0, type: t.category.type };
     existing.total += t.amount;
     categoryMap.set(t.categoryId, existing);
   });
@@ -170,10 +170,10 @@ export default async function Stats() {
                 className="category-icon" 
                 style={{ backgroundColor: `${t.category.color}15`, color: t.category.color }}
               >
-                {t.category.name.charAt(0)}
+                {translateCategory(t.category.name, lang).charAt(0)}
               </div>
               <div className="transaction-details">
-                <p className="transaction-note">{t.note || t.category.name}</p>
+                <p className="transaction-note">{t.note || translateCategory(t.category.name, lang)}</p>
                 <p className="transaction-date">
                   {new Date(t.date).toLocaleDateString('vi-VN')} • {new Date(t.date).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})}
                 </p>

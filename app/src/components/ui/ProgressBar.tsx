@@ -4,9 +4,11 @@ import './ProgressBar.css';
 interface ProgressBarProps {
   progress: number; // 0 to 100
   status?: 'success' | 'warning' | 'danger';
+  color?: string;
+  height?: number;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ progress, status }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ progress, status, color, height }) => {
   const clampedProgress = Math.min(Math.max(progress, 0), 100);
   
   // Determine color based on status or progress percentage
@@ -19,11 +21,13 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ progress, status }) =>
     colorClass = 'progress-fill-danger';
   }
 
+  const fillStyle = color ? { width: `${clampedProgress}%`, backgroundColor: color } : { width: `${clampedProgress}%` };
+
   return (
-    <div className="progress-track">
+    <div className="progress-track" style={height ? { height: `${height}px` } : {}}>
       <div 
-        className={`progress-fill ${colorClass}`} 
-        style={{ width: `${clampedProgress}%` }}
+        className={`progress-fill ${color ? '' : colorClass}`} 
+        style={fillStyle}
       ></div>
     </div>
   );

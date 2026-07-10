@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Card } from '@/components/ui/Card';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, translateCategory } from '@/lib/utils';
 import { Search, ArrowLeft, MoreVertical, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import './Transactions.css';
@@ -46,7 +46,8 @@ export function TransactionList({ transactions: initialTransactions, categories,
 
   const filteredTransactions = useMemo(() => {
     return transactions.filter(t => {
-      const matchesSearch = (t.note || t.category.name).toLowerCase().includes(searchTerm.toLowerCase());
+      const catName = translateCategory(t.category.name, lang);
+      const matchesSearch = (t.note || catName).toLowerCase().includes(searchTerm.toLowerCase());
       const matchesFilter = activeFilter === 'all' || t.categoryId === activeFilter;
       return matchesSearch && matchesFilter;
     });
@@ -101,7 +102,7 @@ export function TransactionList({ transactions: initialTransactions, categories,
             className={`chip ${activeFilter === c.id ? 'active' : ''}`}
             onClick={() => setActiveFilter(c.id)}
           >
-            {c.name}
+            {translateCategory(c.name, lang)}
           </button>
         ))}
       </div>
@@ -118,10 +119,10 @@ export function TransactionList({ transactions: initialTransactions, categories,
                       className="category-icon" 
                       style={{ backgroundColor: `${t.category.color}15`, color: t.category.color }}
                     >
-                      {t.category.name.charAt(0)}
+                      {translateCategory(t.category.name, lang).charAt(0)}
                     </div>
                     <div className="transaction-details">
-                      <p className="transaction-note">{t.note || t.category.name}</p>
+                      <p className="transaction-note">{t.note || translateCategory(t.category.name, lang)}</p>
                       <p className="transaction-date">
                         {new Date(t.date).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})} • {t.paymentMethod}
                       </p>
