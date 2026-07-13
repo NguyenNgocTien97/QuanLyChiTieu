@@ -16,7 +16,7 @@ async function seedDefaultCategories(userId: string) {
 
 export async function getDefaultUser() {
   const session = await getServerSession(authOptions);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   
   if (session && session.user && (session.user as any).id) {
     const userId = (session.user as any).id;
@@ -31,8 +31,7 @@ export async function getDefaultUser() {
     }
     
     // Check if we need to migrate guest data from their specific guest cookie
-    const resolvedCookies = await Promise.resolve(cookieStore);
-    const guestId = resolvedCookies.get('guest_id')?.value;
+    const guestId = cookieStore.get('guest_id')?.value;
     
     if (guestId && guestId !== userId) {
       const guestUser = await prisma.user.findUnique({ where: { id: guestId } });
@@ -56,8 +55,7 @@ export async function getDefaultUser() {
   }
   
   // Fallback to Guest User if not logged in
-  const resolvedCookies = await Promise.resolve(cookieStore);
-  let guestId = resolvedCookies.get('guest_id')?.value;
+  let guestId = cookieStore.get('guest_id')?.value;
   
   if (!guestId) {
     // This shouldn't normally happen since middleware assigns it, 
